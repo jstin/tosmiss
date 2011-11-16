@@ -1,0 +1,60 @@
+script(type='text/javascript')
+  $(document).ready(function(){
+  
+    function clicks () {
+      $('.down').submit(function() {
+        var self = this;
+        var ob = $(this).parent().parent();
+        $.post($(this).attr('action'), function(result) {
+          $(self).parents('.rating').html('<center>#{strings.downvoted}</center>');
+          if ($(self).hasClass('load')) {
+            $('#random').load('/random', function() { clicks() });
+          }
+        });
+        return false;
+      });
+    
+      $('.up').submit(function() {
+        var self = this;
+        $.post($(this).attr('action'), function(result) {
+          $(self).parents('.rating').html('<center>#{strings.upvoted}</center>');
+          if ($(self).hasClass('load')) {
+            $('#random').load('/random', function() { clicks() });
+          }
+        });
+        return false;
+      });
+    }
+    
+    clicks();
+    
+    $('.tab a').click(function () {
+      $('.tab').removeClass('selected');
+      $('.tab-box').removeClass('selected');
+      var id = $(this).attr('href');
+      $(id).addClass('selected');
+      $(this).parent().addClass('selected');
+      return false;
+    });
+    
+  });
+
+div(style="margin-top:0px")
+  div.tab.selected
+    a(href="#new") #{strings.newestImages}
+  div.tab
+    a(href="#top") #{strings.topImages}
+  div.tab
+    a(href="#random") #{strings.randomImages}
+  div.clear
+
+div(style="margin-top:70px")
+
+div#new.tab-box.selected
+  div!= partial('image', newest);
+
+div#top.tab-box
+  div!= partial('image', topRated);
+
+div#random.tab-box
+  div!= partial('random', { object : rand });

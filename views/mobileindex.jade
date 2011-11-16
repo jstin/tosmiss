@@ -1,0 +1,33 @@
+script(type='text/javascript')
+  $(document).ready(function(){
+  
+    function clicks () {
+      $('.down').submit(function() {
+        var self = this;
+        var ob = $(this).parent().parent();
+        $.post($(this).attr('action'), function(result) {
+          $(self).parents('.rating').html('<center>#{strings.downvoted}</center>');
+          if ($(self).hasClass('load')) {
+            $('#random').load('/random', function() { clicks() });
+          }
+        });
+        return false;
+      });
+    
+      $('.up').submit(function() {
+        var self = this;
+        $.post($(this).attr('action'), function(result) {
+          $(self).parents('.rating').html('<center>#{strings.upvoted}</center>');
+          if ($(self).hasClass('load')) {
+            $('#random').load('/random', function() { clicks() });
+          }
+        });
+        return false;
+      });
+    }
+    
+    clicks();
+    
+  });
+
+div!= partial('image', {collection : images, mobile : true} );

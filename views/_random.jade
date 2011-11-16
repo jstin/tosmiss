@@ -1,0 +1,12 @@
+- var mobileLocal = (typeof(mobile) !== 'undefined')
+div(class='image' + (mobileLocal ? ' mobile' : '') )
+  img(src=imageURL(rand, (mobileLocal ? 'small' : '')), width= (mobileLocal ? '300' : 'auto') )
+  div.rating(style="margin-top:5px;padding-top:5px;height:30px")
+    div(style="float:left;")
+      form.up.load(method="post", action="/upvote/" + rand)
+        input(type="submit", value=strings.upvote)
+    div(style="float:right;")
+      form.down.load(method="post", action="/downvote/" + rand)
+        input(type="submit", value=strings.downvote)
+  div.clear
+  

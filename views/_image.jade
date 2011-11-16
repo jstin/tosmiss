@@ -1,0 +1,17 @@
+- var mobileLocal = (typeof(mobile) !== 'undefined')
+div(class='image' + (mobileLocal ? ' mobile' : '') )
+  img(src=imageURL(image, (mobileLocal ? 'small' : '')), width= (mobileLocal ? '300' : 'auto') )
+  div.rating(style="margin-top:5px;padding-top:5px;height:30px")
+    - if (positiveRated && positiveRated.indexOf( image ) >= 0)
+      center #{strings.upvoted}
+    - else if (negativeRated && negativeRated.indexOf( image ) >= 0)
+      center #{strings.downvoted}
+    - else
+      div(style="float:left;")
+        form.up(method="post", action="/upvote/" + image)
+          input(type="submit", value=strings.upvote)
+      div(style="float:right;")
+        form.down(method="post", action="/downvote/" + image)
+          input(type="submit", value=strings.downvote)
+  div.clear
+  
